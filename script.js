@@ -167,14 +167,14 @@ firstClick.classList.add('correct');
 let secondClick = null;
 // русское слово = англ 
 // так можно записывать сardard.rus[i]?
-сardard.rus[i].textContent = сard.eng[i];
+сard.rus[i].textContent = сard.eng[i];
 сard.eng[i].textContent = сard.rus[i];
 //  первый клик - это первая карточка , дальше вторая 
 
 containerCards.addEventListener("click", function(event) {
     //правильно?
-    if (Card.rus[i] || Card.eng[i] == firstClick) {
-        Card.rus[i] || Card.eng[i] == secondClick
+    if (card.rus[i] || card.eng[i] == firstClick) {
+        card.rus[i] || card.eng[i] == secondClick
     };
     //карточки совпали, они убираются с поля (класс.fade-out)
     //пара подобрана неверно, вторая карточка на секунду подсвечивается красным (класс .wrong), и тестирование продолжается
