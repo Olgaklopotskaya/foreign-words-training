@@ -13,8 +13,8 @@ const wordsTranslate = ['apple пример: the children are picking apples',
 
 
 let i = 0;
-let titleFront = cardFront.querySelector('h1');
-let titleBack = cardBack.querySelector('h1');
+const titleFront = cardFront.querySelector('h1');
+const titleBack = cardBack.querySelector('h1');
 
 
 // При клике на карточку
@@ -25,9 +25,9 @@ flipCard.addEventListener("click", function(event) {
 
 cardFront.textContent = words[i];
 cardBack.textContent = wordsTranslate[i];
-let buttonNex = document.querySelector('#next');
-let buttonBack = document.querySelector('#back');
-let currentWord = document.querySelector('#current-word');
+const buttonNex = document.querySelector('#next');
+const buttonBack = document.querySelector('#back');
+const currentWord = document.querySelector('#current-word');
 
 // При клике на кнопку "дальше"
 buttonNex.addEventListener("click", function(event) {
@@ -83,9 +83,9 @@ buttonBack.addEventListener("click", function(event) {
 
 
 /// тестирование
-let examButton = document.querySelector('#exam');
-let firstPage = document.querySelector('.content');
-let studyMode = document.querySelector('#study-mode');
+const examButton = document.querySelector('#exam');
+const firstPage = document.querySelector('.content');
+const studyMode = document.querySelector('#study-mode');
 //При клике на кнопку «Тестирование» осуществляется переход в режим проверки знаний
 examButton.addEventListener("click", function(event) {
     firstPage.classList.add('hidden');
@@ -93,7 +93,7 @@ examButton.addEventListener("click", function(event) {
     containerCards.classList.remove('hidden');
 });
 
-let cards = [{
+const cards = [{
         rus: "яблоко",
         eng: "apple",
 
@@ -122,60 +122,48 @@ let cards = [{
 
 // делаем  карточки
 //контейнер для карточек
-let containerCards = document.createElement('div');
+const containerCards = document.createElement('div');
 containerCards.classList.add('container-cards');
 containerCards.classList.add('hidden');
-
-//карточка с русск текстом
-let rus = document.createElement('div');
-rus.classList.add('rus');
-//отображаем текстовое содержимое из массива объектов
-//правильно?
-rus.textContent = cards.rus;
-
-//карточка с англ текстом
-let eng = document.createElement('div');
-eng.classList.add('eng');
-//отображаем текстовое содержимое из массива объектов
-eng.textContent = cards.eng;
-
-containerCards.append(rus);
-containerCards.append(eng);
-
+examCardsContainer.append(containerCards);
+const examCardsContainer = document.querySelector('#exam-cards');
+// создали шаблон для карточек
+let cardTemplate = document.querySelector('#card-template');
+// Функция для создания карточки
+function prepareItemCards(itemCards) {
+    // Деструктурируем свойства объекта
+    const { rus, eng } = itemCards;
+    // Берем за основу шаблон товара
+    const item = cardTemplate.content.cloneNode(true);
+    // Наполняем его информацией из объекта
+    item.querySelector(".rus").textContent = rus;
+    item.querySelector(".eng").textContent = eng;
+    return item;
+};
 
 
-//множественной вставка карточек
-const fragment = new DocumentFragment();
-//првильно ли записала forEach? 
-cards.forEach((eng, rus) => {
-    let english = document.createElement('div');
-    // эта строчка вызывает сомнения
-    english.textContent = eng;
-    fragment.append(eng);
-    let russian = document.createElement('div');
-    russian.textContent = rus;
-    fragment.append(rus);
-})
+//cоздаем копию;
+let copy = [...cards];
 
-containerCards.append(fragment);
+//функция для отрисовки
+// в качестве параметра -стороны каточки, кот нужно отрисовать 
+function paintCards(side) {
+    side.forEach((item) => {
+        // вызываем ф-цию  prepareItemCards для каждого параметра
+        //подставляем в верстку
+        containerCards.append(prepareItemCards(item));
+    });
+}
+
+prepareItemCards(copy);
 
 //При клике на кнопку «Тестирование» осуществляется переход в режим проверки знаний
 //первый клик по карточке можно обозначить null 
-// или можно просто записать переменную без значения - let firstClick; 
-let firstClick = null;
-firstClick.classList.add('correct');
-let secondClick = null;
-// русское слово = англ 
-// так можно записывать сardard.rus[i]?
-сardard.rus[i].textContent = сard.eng[i];
-сard.eng[i].textContent = сard.rus[i];
-//  первый клик - это первая карточка , дальше вторая 
 
 containerCards.addEventListener("click", function(event) {
-    //правильно?
-    if (Card.rus[i] || Card.eng[i] == firstClick) {
-        Card.rus[i] || Card.eng[i] == secondClick
-    };
+    let firstClick = null;
+    firstClick.classList.add('correct');
+    let secondClick = event.target;
     //карточки совпали, они убираются с поля (класс.fade-out)
     //пара подобрана неверно, вторая карточка на секунду подсвечивается красным (класс .wrong), и тестирование продолжается
     if (firstClick === secondClick) {
@@ -192,26 +180,30 @@ setTimeout(() => {
     secondClick.classList.remove('wrong');
 
 }, 500);
-// тут закомментировала старую версию, я все делала по шаблону , как у нас было задание про зоомагазин
-// но не работает . что не так?
-/*
-//контейнер для шаблона карточек
-let containerCards = document.querySelector('#exam-cards');
-//скрыли контейнер( при клике он откроется)
-containerCards.classList.add('hidden');
-// создали шаблон для карточек
-let cardTemplate = document.querySelector('#card-template');
-// Функция для создания карточки
-function prepareItemCards(itemCards) {
-    // Деструктурируем свойства объекта
-    const { rus, eng } = itemCards;
-    // Берем за основу шаблон товара
-    const item = cardTemplate.content.cloneNode(true);
-    // Наполняем его информацией из объекта
-    item.querySelector(".rus").textContent = rus;
-    item.querySelector(".eng").textContent = eng;
-    return item;
-};
 
-// тут множнственная вставка , как выше
+/*
+
+//множественной вставка карточек
+const fragment = new DocumentFragment();
+containerCards.append(fragment);
+
+
+cards.forEach((item) => {
+
+    //карточка с русск текстом
+    const rus = document.createElement('div');
+    rus.classList.add('rus');
+    rus.textContent = `${item.rus}`;
+    //или rus.textContent = rus;
+
+    //карточка с англ текстом
+    const eng = document.createElement('div');
+    eng.classList.add('eng');
+    //отображаем текстовое содержимое из массива объектов
+    eng.textContent = `${item.eng}`;
+
+
+    fragment.append(rus);
+    fragment.append(eng);
+});
 */
