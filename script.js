@@ -1,7 +1,7 @@
 //добавь класс `.active` элементу `.flip-card`
-let flipCard = document.querySelector('.flip-card');
-let cardFront = document.querySelector('#card-front h1');
-let cardBack = document.querySelector('#card-back h1');
+const flipCard = document.querySelector('.flip-card');
+const cardFront = document.querySelector('#card-front h1');
+const cardBack = document.querySelector('#card-back h1');
 
 const words = ["яблоко", "апельсин", "лимон", "киви", "персик"];
 const wordsTranslate = ['apple пример: the children are picking apples',
