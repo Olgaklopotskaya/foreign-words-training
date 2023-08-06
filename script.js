@@ -160,6 +160,7 @@ prepareItemCards(copy);
 //При клике на кнопку «Тестирование» осуществляется переход в режим проверки знаний
 //первый клик по карточке можно обозначить null 
 
+
 containerCards.addEventListener("click", function(event) {
     let firstClick = null;
     firstClick.classList.add('correct');
@@ -180,6 +181,7 @@ setTimeout(() => {
     secondClick.classList.remove('wrong');
 
 }, 500);
+
 
 /*
 
